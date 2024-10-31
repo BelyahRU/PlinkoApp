@@ -5,6 +5,7 @@ final class AddTargetViewController: UIViewController {
     
     weak var coordinator: MainCoordinator?
     var targetTexts: [String] = Array(repeating: "", count: 10) // Массив для хранения текстов
+    var viewModel = AddTargetViewModel()
 
     let tableView: UITableView = {
        let tv = UITableView()
@@ -27,25 +28,27 @@ final class AddTargetViewController: UIViewController {
         return im
     }()
     
-    let addTargetView: UIImageView = {
-        let im = UIImageView()
-        im.image = UIImage(named: "addTargetView")
-        im.contentMode = .scaleAspectFill
-        return im
-    }()
-
-    var targetsScrollView: UIScrollView = {
-        let sv = UIScrollView()
-        sv.showsHorizontalScrollIndicator = false
-        sv.showsVerticalScrollIndicator = false
-        sv.alwaysBounceHorizontal = false
-        return sv
-    }()
-    
     let saveTargetButton: UIButton = {
        let button = UIButton()
         button.setImage(UIImage(named: "saveTargetButton"), for: .normal)
         return button
+    }()
+    
+    let targetBackView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black.withAlphaComponent(0.52)
+        view.layer.cornerRadius = 18
+        view.clipsToBounds = true
+        return view
+    }()
+    
+    let textField: UITextField = {
+        let tf = UITextField()
+        tf.placeholder = "Enter your target"
+        tf.borderStyle = .none
+        tf.font = UIFont.systemFont(ofSize: 16)
+        tf.backgroundColor = .clear
+        return tf
     }()
     
     public let backButton: UIButton = {
@@ -67,41 +70,46 @@ final class AddTargetViewController: UIViewController {
     }
 
     private func setupUI() {
-        view.addSubview(targetsScrollView)
-        targetsScrollView.addSubview(backgroundImageView)
-        targetsScrollView.addSubview(targetsBackImageView)
-        targetsScrollView.addSubview(saveTargetButton)
-        targetsScrollView.addSubview(backButton)
-        targetsScrollView.addSubview(addTargetView)
+        view.addSubview(backgroundImageView)
+        view.addSubview(targetsBackImageView)
+        view.addSubview(saveTargetButton)
+        view.addSubview(backButton)
+        view.addSubview(targetBackView)
+        view.addSubview(textField)
         
-        targetsScrollView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
         backgroundImageView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalTo(1250)
+            make.edges.equalToSuperview()
         }
         
         backButton.snp.makeConstraints { make in
             make.height.equalTo(44)
             make.width.equalTo(188)
             make.leading.equalToSuperview().offset(24)
-            make.top.equalTo(backgroundImageView.safeAreaLayoutGuide.snp.top).offset(5)
-        }
-        
-        addTargetView.snp.makeConstraints { make in
-            make.width.equalTo(342)
-            make.height.equalTo(56)
-            make.centerX.equalToSuperview()
-            make.top.equalTo(backButton.snp.bottom).offset(24)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(5)
         }
         
         targetsBackImageView.snp.makeConstraints { make in
             make.width.equalTo(342)
             make.centerX.equalToSuperview()
+            if UIScreen.main.bounds.height < 800 {
+                make.height.equalTo(580)
+            }
             make.height.equalTo(654)
-            make.top.equalTo(addTargetView.snp.bottom).offset(12)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(60)
+        }
+        
+        targetBackView.snp.makeConstraints { make in
+            make.top.equalTo(targetsBackImageView.snp.top).offset(16)
+            make.leading.equalTo(targetsBackImageView.snp.leading).offset(16)
+            make.trailing.equalTo(targetsBackImageView.snp.trailing).offset(-16)
+            make.height.equalTo(52)
+        }
+        
+        textField.snp.makeConstraints { make in
+            make.top.equalTo(targetBackView.snp.top).offset(5)
+            make.leading.equalTo(targetBackView.snp.leading).offset(10)
+            make.trailing.equalTo(targetBackView.snp.trailing).offset(-5)
+            make.bottom.equalTo(targetBackView.snp.bottom).offset(-5)
         }
         
         saveTargetButton.snp.makeConstraints { make in
@@ -113,15 +121,4 @@ final class AddTargetViewController: UIViewController {
         
     }
 
-}
-
-class CustomScrollView: UIScrollView {
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        let view = super.hitTest(point, with: event)
-        // Если пользователь нажимает на UITextField, возвращаем его
-        if let textField = view as? UITextField {
-            return textField
-        }
-        return view // Возвращаем любой другой вид, с которым можно взаимодействовать
-    }
 }

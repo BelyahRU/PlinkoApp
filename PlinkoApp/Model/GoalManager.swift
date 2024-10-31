@@ -71,6 +71,11 @@ class GoalManager {
         saveGoalBlocks() // Сохраняем после добавления блока
     }
     
+    func addBlock(block: GoalBlock){
+        goalBlocks.append(block)
+        saveGoalBlocks()
+    }
+    
     // Удаление блока по индексу
     func deleteBlock(at index: Int) {
         guard index >= 0 && index < goalBlocks.count else { return }

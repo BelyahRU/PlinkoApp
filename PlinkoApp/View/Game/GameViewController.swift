@@ -2,16 +2,16 @@ import UIKit
 import SpriteKit
 import SnapKit
 
-class GameScreenViewController: UIViewController {
+class GameScreenViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     
-    // MARK: - Properties
+    weak var coordinator: MainCoordinator?
     
+    var currentBlock = 0
     private var dropPositionX: CGFloat = UIScreen.main.bounds.width / 2
     private var showingBetSheet: Bool = false
     private var selectedBet: Double = 10
     private var isBallDropped: Bool = false
     private var hasBallLanded: Bool = false
-    private var isBonusActive: Bool = false
     private var gameScene: SKScene!
     var skView: SKView!
     
@@ -41,12 +41,26 @@ class GameScreenViewController: UIViewController {
         return button
     }()
     
+    private let goalsTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.isScrollEnabled = false
+        tableView.backgroundColor = .clear
+        tableView.separatorStyle = .none
+        return tableView
+    }()
+    
+    private let goalsBackView: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: "tableViewBack")
+        return view
+    }()
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupObservers()
+//        updateContentSize()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -61,16 +75,36 @@ class GameScreenViewController: UIViewController {
         targetScrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
-        setupBackgroundImage()
+        targetScrollView.addSubview(backgroundImageView)
         setupGameContentView()
+        setupBackgroundImage()
         setupDropOrRestartButton()
         setupBackButton()
         setupFinancialAnalysisImageView()
+        setupTableViewBackView()
+        setupGoalsTableView()
+    }// обновляем contentSize после установки всех элементов}
+        
+    private func updateContentSize() {
+        let skViewHeight: CGFloat = 519 // высота skView
+        let tableViewHeight: CGFloat = 440 // высота таблицы из 10 строк по 44
+        let padding: CGFloat = 20 * 2 // отступы сверху и снизу
+        let totalContentHeight = skView.frame.origin.y + skViewHeight + padding + tableViewHeight + 1000
+
+        targetScrollView.contentSize = CGSize(width: view.frame.width, height: totalContentHeight)
+    }
+    
+    private func setupTableViewBackView() {
+        targetScrollView.addSubview(goalsBackView)
+        goalsBackView.snp.makeConstraints { make in
+            make.width.equalTo(342)
+            make.height.equalTo(516)
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(backgroundImageView.snp.bottom).offset(-20)
+        }
     }
     
     private func setupBackgroundImage() {
-        targetScrollView.addSubview(backgroundImageView)
         
         backgroundImageView.snp.makeConstraints { make in
             make.top.equalToSuperview()
@@ -159,5 +193,34 @@ class GameScreenViewController: UIViewController {
     @objc private func ballLanded() {
         hasBallLanded = true
         isBallDropped = false
+    }
+    
+    private func setupGoalsTableView() {
+        goalsTableView.dataSource = self
+        goalsTableView.delegate = self
+        goalsTableView.register(GoalCell.self, forCellReuseIdentifier: GoalCell.reuseId)
+        goalsBackView.addSubview(goalsTableView)
+        
+        goalsTableView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+    
+    // MARK: - UITableViewDataSource
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: GoalCell.reuseId, for: indexPath) as? GoalCell else {
+            return UITableViewCell()
+        }
+        cell.numberLabel.text = "\(indexPath.row + 1)"
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 44
     }
 }

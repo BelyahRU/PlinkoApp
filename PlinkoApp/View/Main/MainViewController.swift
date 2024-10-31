@@ -6,9 +6,15 @@ final class MainViewController: UIViewController {
     weak var coordinator: MainCoordinator?
     let viewModel = MainViewModel()
     let mainView = MainView()
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        mainView.targetsCollectionView.reloadData()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(viewModel.getTotalCountBlocks())
         configure()
     }
 

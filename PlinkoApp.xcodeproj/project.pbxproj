@@ -31,6 +31,10 @@
 		1A70607C2CD2B3AD0014DD5E /* GoalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A70607B2CD2B3AD0014DD5E /* GoalManager.swift */; };
 		1A7060802CD2B3E00014DD5E /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A70607F2CD2B3E00014DD5E /* Resources.swift */; };
 		1A7060832CD2B4360014DD5E /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1A7060822CD2B4360014DD5E /* SnapKit */; };
+		1A830C5B2CD3F90E0060CC21 /* AddTargetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A830C5A2CD3F90E0060CC21 /* AddTargetViewModel.swift */; };
+		1A830C5F2CD4002D0060CC21 /* GoalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A830C5E2CD4002D0060CC21 /* GoalCell.swift */; };
+		1A830C622CD4058A0060CC21 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A830C612CD4058A0060CC21 /* SettingsViewController.swift */; };
+		1A830C642CD410790060CC21 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A830C632CD410790060CC21 /* SettingsManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +63,10 @@
 		1A7060792CD2B37D0014DD5E /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		1A70607B2CD2B3AD0014DD5E /* GoalManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalManager.swift; sourceTree = "<group>"; };
 		1A70607F2CD2B3E00014DD5E /* Resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
+		1A830C5A2CD3F90E0060CC21 /* AddTargetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTargetViewModel.swift; sourceTree = "<group>"; };
+		1A830C5E2CD4002D0060CC21 /* GoalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCell.swift; sourceTree = "<group>"; };
+		1A830C612CD4058A0060CC21 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		1A830C632CD410790060CC21 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,10 +100,10 @@
 		1A70603D2CD2B1F50014DD5E /* PlinkoApp */ = {
 			isa = PBXGroup;
 			children = (
+				1A7060522CD2B1FB0014DD5E /* Coordinaror */,
 				1A7060562CD2B2160014DD5E /* Model */,
 				1A7060552CD2B20E0014DD5E /* ViewModel */,
 				1A7060542CD2B20A0014DD5E /* View */,
-				1A7060522CD2B1FB0014DD5E /* Coordinaror */,
 				1A70603E2CD2B1F50014DD5E /* AppDelegate.swift */,
 				1A7060402CD2B1F50014DD5E /* SceneDelegate.swift */,
 				1A7060422CD2B1F50014DD5E /* ViewController.swift */,
@@ -126,6 +134,7 @@
 		1A7060542CD2B20A0014DD5E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				1A830C602CD4057D0060CC21 /* Settings */,
 				1A7060702CD2B3280014DD5E /* Game */,
 				1A70606F2CD2B31D0014DD5E /* Info */,
 				1A7060662CD2B2C80014DD5E /* AddTarget */,
@@ -138,6 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				1A7060792CD2B37D0014DD5E /* MainViewModel.swift */,
+				1A830C5A2CD3F90E0060CC21 /* AddTargetViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -148,6 +158,7 @@
 				1A70607E2CD2B3B90014DD5E /* Support */,
 				1A70607D2CD2B3B40014DD5E /* Resources */,
 				1A70607B2CD2B3AD0014DD5E /* GoalManager.swift */,
+				1A830C632CD410790060CC21 /* SettingsManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -189,6 +200,7 @@
 			children = (
 				1A7060752CD2B34F0014DD5E /* GameScene.swift */,
 				1A7060772CD2B3560014DD5E /* GameViewController.swift */,
+				1A830C5E2CD4002D0060CC21 /* GoalCell.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -206,6 +218,14 @@
 			children = (
 			);
 			path = Support;
+			sourceTree = "<group>";
+		};
+		1A830C602CD4057D0060CC21 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				1A830C612CD4058A0060CC21 /* SettingsViewController.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -285,9 +305,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A7060612CD2B2820014DD5E /* MainVC + CollectionView.swift in Sources */,
+				1A830C5B2CD3F90E0060CC21 /* AddTargetViewModel.swift in Sources */,
 				1A7060632CD2B2890014DD5E /* MainView.swift in Sources */,
 				1A7060582CD2B2370014DD5E /* Coordinator.swift in Sources */,
 				1A7060432CD2B1F50014DD5E /* ViewController.swift in Sources */,
+				1A830C5F2CD4002D0060CC21 /* GoalCell.swift in Sources */,
 				1A7060782CD2B3560014DD5E /* GameViewController.swift in Sources */,
 				1A70603F2CD2B1F50014DD5E /* AppDelegate.swift in Sources */,
 				1A70605D2CD2B2640014DD5E /* MainViewController.swift in Sources */,
@@ -303,8 +325,10 @@
 				1A7060412CD2B1F50014DD5E /* SceneDelegate.swift in Sources */,
 				1A7060722CD2B33B0014DD5E /* InfoView.swift in Sources */,
 				1A7060742CD2B3470014DD5E /* InfoViewController.swift in Sources */,
+				1A830C642CD410790060CC21 /* SettingsManager.swift in Sources */,
 				1A70607C2CD2B3AD0014DD5E /* GoalManager.swift in Sources */,
 				1A70606A2CD2B2E20014DD5E /* AddTargetVC + Action.swift in Sources */,
+				1A830C622CD4058A0060CC21 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -26,4 +26,9 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         cell.setupCell(name: block.name, percent: block.getPercent())
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        coordinator.
+        coordinator?.showGame(blockId: indexPath.row)
+    }
 }

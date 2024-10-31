@@ -20,6 +20,7 @@ extension MainViewController {
     @objc
     func settingsPressed() {
         print("LOGGER: settings pressed")
+        coordinator?.showSettings()
     }
     
     @objc

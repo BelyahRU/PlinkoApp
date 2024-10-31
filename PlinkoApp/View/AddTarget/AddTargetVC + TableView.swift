@@ -4,23 +4,23 @@ import UIKit
 
 extension AddTargetViewController: UITableViewDataSource, UITableViewDelegate {
     func setupTableView() {
-        targetsBackImageView.addSubview(tableView)
+        view.addSubview(tableView)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(TargetCell.self, forCellReuseIdentifier: TargetCell.reuseId)
         
-        let tableViewHeight = CGFloat(10 * 48)
         
         tableView.snp.makeConstraints { make in
             make.top.equalTo(targetsBackImageView).offset(126)
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(tableViewHeight)
-            make.bottom.equalToSuperview()
+            make.trailing.equalToSuperview().offset(-40)
+            if UIScreen.main.bounds.height < 800 {
+                make.leading.equalToSuperview().offset(10)
+            } else {
+                make.leading.equalToSuperview().offset(20)
+            }
+            make.bottom.equalTo(saveTargetButton.snp.top)
+            make.centerX.equalToSuperview()
         }
-        targetsScrollView.snp.makeConstraints { make in
-            make.bottom.equalTo(saveTargetButton.snp.bottom).offset(100)
-        }
-        targetsScrollView.bringSubviewToFront(tableView)
         tableView.reloadData()
     }
 
@@ -36,6 +36,7 @@ extension AddTargetViewController: UITableViewDataSource, UITableViewDelegate {
         cell.backgroundColor = .clear
         cell.textField.text = targetTexts[indexPath.row]
         cell.textField.tag = indexPath.row
+        cell.textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

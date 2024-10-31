@@ -1,12 +1,16 @@
 import SwiftUI
 import SpriteKit
 
-public class GameScene: SKScene, SKPhysicsContactDelegate {
+protocol GameScreenViewControllerDelegate: AnyObject {
+    func ballFalled(at: Int)
+}
+
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: - Properties
     
-    public var ballIsDropped = false
-    
+    public weak var gameDelegate: GameScreenViewControllerDelegate?
+    public var currentBall = 0
     private var ball: SKShapeNode?
     private let ballRadius: CGFloat = 10
     private let pegRadius: CGFloat = 4
@@ -48,9 +52,27 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: - Scene Setup
     
     public override func didMove(to view: SKView) {
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadPressed), name: NSNotification.Name("targetReloaded"), object: nil)
         setupPhysicsWorld()
         setupNotifications()
         createInitialScene()
+        loadData()
+    }
+    
+    @objc
+    func reloadPressed() {
+        for i in 0..<10 {
+            boxLabels[i].fontColor = .green
+            boxNodes[i].texture = SKTexture(imageNamed: "box")
+        }
+    }
+    
+    func loadData() {
+        let arr = GetterSingletone.shared.currentArray
+        for i in arr {
+            boxLabels[i].fontColor = .white
+            boxNodes[i].texture = SKTexture(imageNamed: "boxWhite")
+        }
     }
     
     private func setupPhysicsWorld() {
@@ -169,9 +191,8 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                     self.removeAllBalls()
                     self.createBall(at: CGPoint(x: self.size.width / 2, y: self.size.height - 70))
-                
-                    
                 }
+                NotificationCenter.default.post(name: Notification.Name("ballFalled"), object: nil, userInfo: ["index": boxIndex])
                 hasBallLanded = true
                 NotificationCenter.default.post(name: NSNotification.Name("ballLanded"), object: nil)
             }

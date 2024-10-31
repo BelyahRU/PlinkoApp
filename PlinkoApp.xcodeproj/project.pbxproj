@@ -35,6 +35,7 @@
 		1A830C5F2CD4002D0060CC21 /* GoalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A830C5E2CD4002D0060CC21 /* GoalCell.swift */; };
 		1A830C622CD4058A0060CC21 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A830C612CD4058A0060CC21 /* SettingsViewController.swift */; };
 		1A830C642CD410790060CC21 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A830C632CD410790060CC21 /* SettingsManager.swift */; };
+		1A830C662CD4341E0060CC21 /* GetterSingletone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A830C652CD4341E0060CC21 /* GetterSingletone.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +68,7 @@
 		1A830C5E2CD4002D0060CC21 /* GoalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCell.swift; sourceTree = "<group>"; };
 		1A830C612CD4058A0060CC21 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		1A830C632CD410790060CC21 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
+		1A830C652CD4341E0060CC21 /* GetterSingletone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetterSingletone.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +160,7 @@
 				1A70607E2CD2B3B90014DD5E /* Support */,
 				1A70607D2CD2B3B40014DD5E /* Resources */,
 				1A70607B2CD2B3AD0014DD5E /* GoalManager.swift */,
+				1A830C652CD4341E0060CC21 /* GetterSingletone.swift */,
 				1A830C632CD410790060CC21 /* SettingsManager.swift */,
 			);
 			path = Model;
@@ -326,6 +329,7 @@
 				1A7060722CD2B33B0014DD5E /* InfoView.swift in Sources */,
 				1A7060742CD2B3470014DD5E /* InfoViewController.swift in Sources */,
 				1A830C642CD410790060CC21 /* SettingsManager.swift in Sources */,
+				1A830C662CD4341E0060CC21 /* GetterSingletone.swift in Sources */,
 				1A70607C2CD2B3AD0014DD5E /* GoalManager.swift in Sources */,
 				1A70606A2CD2B2E20014DD5E /* AddTargetVC + Action.swift in Sources */,
 				1A830C622CD4058A0060CC21 /* SettingsViewController.swift in Sources */,

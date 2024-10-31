@@ -2,7 +2,7 @@ import UIKit
 import SpriteKit
 import SnapKit
 
-class GameScreenViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
+class GameScreenViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, GameScreenViewControllerDelegate  {
     
     weak var coordinator: MainCoordinator?
     
@@ -24,20 +24,46 @@ class GameScreenViewController: UIViewController, UITableViewDataSource, UITable
     }()
     
     let backgroundImageView: UIImageView = {
+        let im = UIImageView()
+        return im
+    }()
+    let backgroundImageView2: UIImageView = {
         let im = UIImageView(image: UIImage(named: "longBack"))
         return im
     }()
     
-    let financialAnalysisImageView: UIImageView = {
-        let im = UIImageView(image: UIImage(named: "financialAnalysis"))
+    let targetBackView: UIImageView = {
+        let im = UIImageView(image: UIImage(named: "nameView"))
         im.contentMode = .scaleAspectFit
         return im
+    }()
+    
+    private let nameLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        label.textColor = .white
+        return label
+    }()
+    
+    private let percents: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        label.textColor = .white.withAlphaComponent(0.72)
+        return label
+    }()
+    
+    private let stats: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        label.textColor = .white
+        return label
     }()
     
     public let backButton: UIButton = {
        let button = UIButton()
         button.setImage(UIImage(named: Resources.Buttons.backButton), for: .normal)
         button.backgroundColor = .clear
+        button.addTarget(self, action: #selector(backPressed), for: .touchUpInside)
         return button
     }()
     
@@ -54,13 +80,32 @@ class GameScreenViewController: UIViewController, UITableViewDataSource, UITable
         view.image = UIImage(named: "tableViewBack")
         return view
     }()
+    
+    public let reloadButton: UIButton = {
+       let button = UIButton()
+        button.setImage(UIImage(named: "reloadButton"), for: .normal)
+        button.backgroundColor = .clear
+        button.addTarget(self, action: #selector(reloadPressed), for: .touchUpInside)
+        return button
+    }()
+    
+    var block: GoalBlock!
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(ballDidFall(notification:)), name: Notification.Name("ballFalled"), object: nil)
+        view.addSubview(backgroundImageView2)
+        backgroundImageView2.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        loadData()
+        loadUI()
         setupUI()
         setupObservers()
-//        updateContentSize()
+        addReloadButton()
+        print(block.goals)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -68,7 +113,53 @@ class GameScreenViewController: UIViewController, UITableViewDataSource, UITable
         removeObservers()
     }
     
+    func addReloadButton() {
+        targetScrollView.addSubview(reloadButton)
+        reloadButton.snp.makeConstraints { make in
+            make.size.equalTo(24)
+            make.trailing.equalTo(backgroundImageView.snp.trailing).offset(-20)
+            make.top.equalTo(self.backgroundImageView.safeAreaLayoutGuide.snp.top).offset(15)
+        }
+    }
+    
+    func ballFalled(at id: Int) {
+        let text = block.goals[id].text
+        GoalManager.shared.updateGoal(inBlock: currentBlock, goalIndex: id, isDone: true, text: text)
+        loadData()
+    }
+    
+    func loadData() {
+        block = GoalManager.shared.getBlock(at: currentBlock)
+        goalsTableView.reloadData()
+    }
+    
+    func loadUI() {
+        nameLabel.text = block.name
+        let total = Int(block.getPercent())! / 10
+        stats.text = "\(total)/10"
+        percents.text = "\(block.getPercent())%"
+    }
+    
     // MARK: - UI Setup
+    
+    @objc func ballDidFall(notification: Notification) {
+        guard let id = notification.userInfo?["index"] as? Int else { return }
+        let text = block.goals[id].text
+        GoalManager.shared.updateGoal(inBlock: currentBlock, goalIndex: id, isDone: true, text: text)
+        loadData()
+        loadUI()
+    }
+    
+    @objc func backPressed() {
+        coordinator?.backPressed()
+    }
+    
+    @objc func reloadPressed() {
+        NotificationCenter.default.post(name: NSNotification.Name("targetReloaded"), object: nil)
+        GoalManager.shared.reloadBlock(at: currentBlock)
+        loadData()
+        loadUI()
+    }
     
     private func setupUI() {
         view.addSubview(targetScrollView)
@@ -118,12 +209,19 @@ class GameScreenViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     private func setupGameContentView() {
+        GetterSingletone.shared.currentArray = []
+        for i in 0..<block.goals.count {
+            if block.goals[i].isDone {
+                GetterSingletone.shared.currentArray.append(i)
+            }
+        }
         gameScene = GameScene()
         gameScene.scaleMode = .resizeFill
         gameScene.backgroundColor = .clear
         skView = SKView()
         skView = SKView(frame: CGRect(x: 20, y: 170, width: 342, height: 519))
         skView.presentScene(gameScene)
+        
         skView.backgroundColor = .clear
         targetScrollView.addSubview(skView)
         
@@ -146,11 +244,33 @@ class GameScreenViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     private func setupFinancialAnalysisImageView() {
-        targetScrollView.addSubview(financialAnalysisImageView)
-        financialAnalysisImageView.snp.makeConstraints { make in
+        targetScrollView.addSubview(targetBackView)
+        targetBackView.snp.makeConstraints { make in
             make.width.equalTo(342)
             make.centerX.equalToSuperview()
             make.top.equalTo(backButton.snp.bottom).offset(24)
+        }
+        
+        targetScrollView.addSubview(nameLabel)
+        targetScrollView.addSubview(percents)
+        targetScrollView.addSubview(stats)
+        
+        percents.snp.makeConstraints { make in
+            make.centerY.equalTo(targetBackView.snp.centerY).offset(-2)
+            make.trailing.equalTo(targetBackView.snp.trailing).offset(-16)
+        }
+        
+        stats.snp.makeConstraints { make in
+            make.centerY.equalTo(percents.snp.centerY)
+            make.trailing.equalTo(percents.snp.leading).offset(-4)
+        }
+        
+        nameLabel.snp.makeConstraints { make in
+            make.leading.equalTo(targetBackView.snp.leading).offset(16)
+            make.top.equalTo(targetBackView.snp.top)
+            make.bottom.equalTo(targetBackView.snp.bottom)
+            make.centerY.equalTo(targetBackView.snp.centerY).offset(-2)
+            make.trailing.equalTo(stats).offset(-10)
         }
     }
     
@@ -204,6 +324,7 @@ class GameScreenViewController: UIViewController, UITableViewDataSource, UITable
         goalsTableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        goalsTableView.backgroundColor = .clear
     }
     
     // MARK: - UITableViewDataSource
@@ -217,10 +338,18 @@ class GameScreenViewController: UIViewController, UITableViewDataSource, UITable
             return UITableViewCell()
         }
         cell.numberLabel.text = "\(indexPath.row + 1)"
+        cell.titleLabel.text = "\(block.goals[indexPath.row].text)"
+        cell.checkBox.isSelected = block.goals[indexPath.row].isDone
+        cell.backgroundColor = .clear
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 44
+        return 50
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(indexPath.row)
+    }
+      
 }

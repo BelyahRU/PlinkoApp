@@ -14,16 +14,16 @@ class GoalCell: UITableViewCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         label.text = "Goal"
+        label.numberOfLines = 2
         return label
     }()
     
     let checkBox: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setImage(UIImage(systemName: "square"), for: .normal)
-        button.setImage(UIImage(systemName: "checkmark.square"), for: .selected)
-        button.addTarget(self, action: #selector(toggleCheck), for: .touchUpInside)
+        let button = UIButton()
+        button.setImage(UIImage(named: "notApprove"), for: .normal)
+        button.setImage(UIImage(named: "approve"), for: .selected)
         return button
     }()
     
@@ -49,15 +49,14 @@ class GoalCell: UITableViewCell {
         titleLabel.snp.makeConstraints { make in
             make.leading.equalTo(numberLabel.snp.trailing).offset(10)
             make.centerY.equalToSuperview()
+            make.trailing.equalTo(checkBox.snp.leading).offset(-5)
         }
         
         checkBox.snp.makeConstraints { make in
             make.trailing.equalToSuperview().offset(-16)
             make.centerY.equalToSuperview()
+            make.size.equalTo(24)
         }
     }
     
-    @objc private func toggleCheck() {
-        checkBox.isSelected.toggle()
-    }
 }

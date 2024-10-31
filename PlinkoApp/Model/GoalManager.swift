@@ -32,6 +32,14 @@ class GoalBlock: Codable {
         }
         return "\(percent)"
     }
+    
+    
+    func reloadBlock() {
+        for i in 0..<goals.count {
+            goals[i].isDone = false
+        }
+    }
+
 }
 
 // MARK: - Goal Manager
@@ -69,6 +77,13 @@ class GoalManager {
         let newBlock = GoalBlock(name: name)
         goalBlocks.append(newBlock)
         saveGoalBlocks() // Сохраняем после добавления блока
+    }
+    
+    func reloadBlock(at: Int) {
+        guard at >= 0 && at < goalBlocks.count else { return }
+        goalBlocks[at].reloadBlock() // Вызываем reloadBlock для блока
+        saveGoalBlocks()
+
     }
     
     func addBlock(block: GoalBlock){

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1A12DA282CD5317700B8E0B4 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1A12DA272CD5317700B8E0B4 /* SnapKit */; };
+		1A3D40F52CD53A2800E1F26A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1A3D40F42CD53A2800E1F26A /* SnapKit */; };
 		1A70603F2CD2B1F50014DD5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A70603E2CD2B1F50014DD5E /* AppDelegate.swift */; };
 		1A7060412CD2B1F50014DD5E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7060402CD2B1F50014DD5E /* SceneDelegate.swift */; };
 		1A7060482CD2B1F70014DD5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A7060472CD2B1F70014DD5E /* Assets.xcassets */; };
@@ -76,7 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A12DA282CD5317700B8E0B4 /* SnapKit in Frameworks */,
+				1A3D40F52CD53A2800E1F26A /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,7 +248,7 @@
 			);
 			name = PlinkoApp;
 			packageProductDependencies = (
-				1A12DA272CD5317700B8E0B4 /* SnapKit */,
+				1A3D40F42CD53A2800E1F26A /* SnapKit */,
 			);
 			productName = PlinkoApp;
 			productReference = 1A70603B2CD2B1F50014DD5E /* PlinkoApp.app */;
@@ -279,7 +279,7 @@
 			);
 			mainGroup = 1A7060322CD2B1F50014DD5E;
 			packageReferences = (
-				1A12DA262CD5317700B8E0B4 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				1A3D40F32CD53A2800E1F26A /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = 1A70603C2CD2B1F50014DD5E /* Products */;
 			projectDirPath = "";
@@ -547,20 +547,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		1A12DA262CD5317700B8E0B4 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		1A3D40F32CD53A2800E1F26A /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.7.1;
+				kind = upToNextMinorVersion;
+				minimumVersion = 5.0.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		1A12DA272CD5317700B8E0B4 /* SnapKit */ = {
+		1A3D40F42CD53A2800E1F26A /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 1A12DA262CD5317700B8E0B4 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			package = 1A3D40F32CD53A2800E1F26A /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1A70603F2CD2B1F50014DD5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A70603E2CD2B1F50014DD5E /* AppDelegate.swift */; };
 		1A7060412CD2B1F50014DD5E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7060402CD2B1F50014DD5E /* SceneDelegate.swift */; };
-		1A7060432CD2B1F50014DD5E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7060422CD2B1F50014DD5E /* ViewController.swift */; };
 		1A7060482CD2B1F70014DD5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A7060472CD2B1F70014DD5E /* Assets.xcassets */; };
 		1A70604B2CD2B1F70014DD5E /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 1A70604A2CD2B1F70014DD5E /* Base */; };
 		1A7060582CD2B2370014DD5E /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7060572CD2B2370014DD5E /* Coordinator.swift */; };
@@ -33,7 +32,7 @@
 		1A7060832CD2B4360014DD5E /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1A7060822CD2B4360014DD5E /* SnapKit */; };
 		1A830C5B2CD3F90E0060CC21 /* AddTargetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A830C5A2CD3F90E0060CC21 /* AddTargetViewModel.swift */; };
 		1A830C5F2CD4002D0060CC21 /* GoalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A830C5E2CD4002D0060CC21 /* GoalCell.swift */; };
-		1A830C622CD4058A0060CC21 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A830C612CD4058A0060CC21 /* SettingsViewController.swift */; };
+		1A830C622CD4058A0060CC21 /* NotificationSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A830C612CD4058A0060CC21 /* NotificationSettingsViewController.swift */; };
 		1A830C642CD410790060CC21 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A830C632CD410790060CC21 /* SettingsManager.swift */; };
 		1A830C662CD4341E0060CC21 /* GetterSingletone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A830C652CD4341E0060CC21 /* GetterSingletone.swift */; };
 /* End PBXBuildFile section */
@@ -42,7 +41,6 @@
 		1A70603B2CD2B1F50014DD5E /* PlinkoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlinkoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A70603E2CD2B1F50014DD5E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A7060402CD2B1F50014DD5E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		1A7060422CD2B1F50014DD5E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		1A7060472CD2B1F70014DD5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1A70604A2CD2B1F70014DD5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1A70604C2CD2B1F70014DD5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -66,7 +64,7 @@
 		1A70607F2CD2B3E00014DD5E /* Resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
 		1A830C5A2CD3F90E0060CC21 /* AddTargetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTargetViewModel.swift; sourceTree = "<group>"; };
 		1A830C5E2CD4002D0060CC21 /* GoalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCell.swift; sourceTree = "<group>"; };
-		1A830C612CD4058A0060CC21 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		1A830C612CD4058A0060CC21 /* NotificationSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsViewController.swift; sourceTree = "<group>"; };
 		1A830C632CD410790060CC21 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		1A830C652CD4341E0060CC21 /* GetterSingletone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetterSingletone.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -108,7 +106,6 @@
 				1A7060542CD2B20A0014DD5E /* View */,
 				1A70603E2CD2B1F50014DD5E /* AppDelegate.swift */,
 				1A7060402CD2B1F50014DD5E /* SceneDelegate.swift */,
-				1A7060422CD2B1F50014DD5E /* ViewController.swift */,
 				1A7060472CD2B1F70014DD5E /* Assets.xcassets */,
 				1A7060492CD2B1F70014DD5E /* LaunchScreen.storyboard */,
 				1A70604C2CD2B1F70014DD5E /* Info.plist */,
@@ -226,7 +223,7 @@
 		1A830C602CD4057D0060CC21 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				1A830C612CD4058A0060CC21 /* SettingsViewController.swift */,
+				1A830C612CD4058A0060CC21 /* NotificationSettingsViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -311,7 +308,6 @@
 				1A830C5B2CD3F90E0060CC21 /* AddTargetViewModel.swift in Sources */,
 				1A7060632CD2B2890014DD5E /* MainView.swift in Sources */,
 				1A7060582CD2B2370014DD5E /* Coordinator.swift in Sources */,
-				1A7060432CD2B1F50014DD5E /* ViewController.swift in Sources */,
 				1A830C5F2CD4002D0060CC21 /* GoalCell.swift in Sources */,
 				1A7060782CD2B3560014DD5E /* GameViewController.swift in Sources */,
 				1A70603F2CD2B1F50014DD5E /* AppDelegate.swift in Sources */,
@@ -332,7 +328,7 @@
 				1A830C662CD4341E0060CC21 /* GetterSingletone.swift in Sources */,
 				1A70607C2CD2B3AD0014DD5E /* GoalManager.swift in Sources */,
 				1A70606A2CD2B2E20014DD5E /* AddTargetVC + Action.swift in Sources */,
-				1A830C622CD4058A0060CC21 /* SettingsViewController.swift in Sources */,
+				1A830C622CD4058A0060CC21 /* NotificationSettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

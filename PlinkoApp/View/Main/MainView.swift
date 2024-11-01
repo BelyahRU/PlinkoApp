@@ -26,8 +26,9 @@ final class MainView: UIView {
     
     public let achievmentsButton: UIButton = {
        let button = UIButton()
-        button.setImage(UIImage(named: Resources.Buttons.achievmentsButton), for: .normal)
+//        button.setImage(UIImage(named: Resources.Buttons.achievmentsButton), for: .normal)
         button.backgroundColor = .clear
+        button.isHidden = false
         return button
     }()
     

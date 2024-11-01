@@ -7,32 +7,21 @@ protocol GameScreenViewControllerDelegate: AnyObject {
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    // MARK: - Properties
-    
     public weak var gameDelegate: GameScreenViewControllerDelegate?
     public var currentBall = 0
     private var ball: SKShapeNode?
-    private let ballRadius: CGFloat = 10
-    private let pegRadius: CGFloat = 4
     private let boxWidth: CGFloat = 29
     private let boxHeight: CGFloat = 20
     private let boxCount: Int = 10
-    private let numberOfRows: Int = 10
     private let spacing: CGFloat = 40
-   
     private let centralX: CGFloat
-    private let horizontalLimit: CGFloat = 30.0
-   
     private var boxMultipliers: [Int] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     private var boxNodes: [SKSpriteNode] = []
     private var boxLabels: [SKLabelNode] = []
-   
     private var isLaunching: Bool = true
-    private var hasBallLanded = true
+    private var ballLanded = true
     private var isBonusActive: Bool = false
 
-    // MARK: - Initializers
-    
     override init() {
         self.centralX = UIScreen.main.bounds.width / 2
         super.init(size: CGSize(width: 342, height: 519))
@@ -49,14 +38,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Scene Setup
     
     public override func didMove(to view: SKView) {
         NotificationCenter.default.addObserver(self, selector: #selector(reloadPressed), name: NSNotification.Name("targetReloaded"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(dropBallAtPosition(_:)), name: NSNotification.Name("ballDropped"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(moveBallToPosition(_:)), name: NSNotification.Name("ballMoved"), object: nil)
         setupPhysicsWorld()
-        setupNotifications()
         createInitialScene()
         loadData()
+        
+        for i in 0..<boxLabels.count {
+            boxLabels[i].text = "\(i+1)"
+        }
     }
     
     @objc
@@ -80,45 +73,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
         physicsBody = SKPhysicsBody(edgeLoopFrom: self.frame)
     }
-    
-    private func setupNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(dropBallAtPosition(_:)), name: NSNotification.Name("dropBallAtPosition"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(moveBallToPosition(_:)), name: NSNotification.Name("moveBallToPosition"), object: nil)
-       
-        NotificationCenter.default.addObserver(self, selector: #selector(isBounusActiveNotification), name: NSNotification.Name("bonusButtonPressed"), object: nil)
-       
-    }
-    
-    // MARK: - Notifications
-    
-    @objc private func isBounusActiveNotification() {
-        isBonusActive = true
-    }
-    
-    // MARK: - Game Logic
-    
+     
     private func createInitialScene() {
         createBall(at: CGPoint(x: size.width / 2, y: size.height - 70))
         createInvertedTrianglePegs()
         createBoxesWithRandomZeroMultiplier()
     }
     
-    
-
     private func createBoxesWithRandomZeroMultiplier() {
         let startY: CGFloat = 128
         let totalBoxWidth = CGFloat(boxCount) * boxWidth
         let totalSpacing = CGFloat(boxCount - 1) * spacing / 10
         let startX = (size.width - (totalBoxWidth + totalSpacing)) / 2
-        
         var dynamicBoxMultipliers = boxMultipliers
         let shouldHaveZero = Bool.random()
-        
         if shouldHaveZero {
             let randomIndex = Int.random(in: 0..<boxCount)
             dynamicBoxMultipliers[randomIndex] = 0
         }
-
         for i in 0..<boxCount {
             let boxX = startX + CGFloat(i) * (boxWidth + spacing / 10)
             createBox(at: CGPoint(x: boxX, y: startY), withMultiplier: dynamicBoxMultipliers[i])
@@ -126,34 +98,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private func createBox(at position: CGPoint, withMultiplier multiplier: Int) {
-        createBoxWalls(at: position, withMultiplier: multiplier) // Передаем множитель
-        addMultiplierLabelWithBackground(at: position, withMultiplier: multiplier, imageName: "skullIcon")
+        createBoxWalls(at: position, withMultiplier: multiplier)
+        addMultiplierLabelWithBackground(at: position, withMultiplier: multiplier)
     }
 
-    private func addMultiplierLabelWithBackground(at position: CGPoint, withMultiplier multiplier: Int, imageName: String?) {
-
+    private func addMultiplierLabelWithBackground(at position: CGPoint, withMultiplier multiplier: Int) {
         let path = UIBezierPath()
-
         path.move(to: CGPoint(x: -boxWidth / 2, y: -boxHeight / 2))
         path.addLine(to: CGPoint(x: -boxWidth / 2, y: boxHeight / 2))
         path.addLine(to: CGPoint(x: boxWidth / 2, y: boxHeight / 2))
         path.addLine(to: CGPoint(x: boxWidth / 2, y: -boxHeight / 2))
         path.close()
-        
         let texture = SKTexture(imageNamed: "box")
         let imageNode = SKSpriteNode(texture: texture)
         imageNode.size = CGSize(width: boxWidth, height: boxHeight)
         imageNode.position = CGPoint(x: position.x + boxWidth / 2, y: position.y + boxHeight / 2)
-        imageNode.zPosition = 1 // Размещаем поверх фона
+        imageNode.zPosition = 1
         imageNode.name = "box"
-        
         addChild(imageNode)
         boxNodes.append(imageNode)
         let label = SKLabelNode(text: "\(multiplier)")
         label.fontColor = .green
         label.alpha = 1.0
         label.fontSize = 14
-        label.fontName = "Helvetica-Bold" // Укажите жирный шрифт здесь
+        label.fontName = "Helvetica-Bold"
         label.position = CGPoint(x: position.x + boxWidth / 2, y: position.y + boxHeight / 2 - 3)
         label.zPosition = 9
         addChild(label)
@@ -162,38 +130,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     private func createBoxWalls(at position: CGPoint, withMultiplier multiplier: Int) {
-        let walls = [
-            SKSpriteNode(color: .clear, size: CGSize(width: 2, height: boxHeight)), // Левая граница
-            SKSpriteNode(color: .clear, size: CGSize(width: 2, height: boxHeight)), // Правая граница
-            SKSpriteNode(color: .clear, size: CGSize(width: boxWidth, height: 2)) // Нижняя граница
+        let wallsNodes = [
+            SKSpriteNode(color: .clear, size: CGSize(width: 2, height: boxHeight)),
+            SKSpriteNode(color: .clear, size: CGSize(width: 2, height: boxHeight)),
+            SKSpriteNode(color: .clear, size: CGSize(width: boxWidth, height: 2))
         ]
-        
-        walls[0].position = CGPoint(x: position.x, y: position.y + boxHeight / 2)
-        walls[1].position = CGPoint(x: position.x + boxWidth, y: position.y + boxHeight / 2)
-        walls[2].position = CGPoint(x: position.x + boxWidth / 2, y: position.y);
-        
-        for wall in walls {
-            wall.physicsBody = SKPhysicsBody(rectangleOf: wall.size)
-            wall.physicsBody?.isDynamic = false
-            wall.name = "box"
-            addChild(wall)
+        wallsNodes[0].position = CGPoint(x: position.x, y: position.y + boxHeight / 2)
+        wallsNodes[1].position = CGPoint(x: position.x + boxWidth, y: position.y + boxHeight / 2)
+        wallsNodes[2].position = CGPoint(x: position.x + boxWidth / 2, y: position.y);
+        for wallNode in wallsNodes {
+            wallNode.physicsBody = SKPhysicsBody(rectangleOf: wallNode.size)
+            wallNode.physicsBody?.isDynamic = false
+            wallNode.name = "box"
+            addChild(wallNode)
         }
     }
+    
 
 
    public override func update(_ currentTime: TimeInterval) {
-        if !hasBallLanded, let ball = ball {
+        if !ballLanded, let ball = ball {
             let boxIndex = checkBallInBoxes(ballPosition: ball.position)
             if boxIndex != -1 {
                 let multiplier = boxMultipliers[boxIndex]
                 NotificationCenter.default.post(name: NSNotification.Name("updateMultiplier"), object: multiplier)
-                print("Шарик попал в ячейку с индексом: \(boxIndex) и коэффициентом: \(multiplier)x")
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                    self.removeAllBalls()
+                    self.children.filter { $0.name == "ball" }.forEach { $0.removeFromParent() }
                     self.createBall(at: CGPoint(x: self.size.width / 2, y: self.size.height - 70))
                 }
                 NotificationCenter.default.post(name: Notification.Name("ballFalled"), object: nil, userInfo: ["index": boxIndex])
-                hasBallLanded = true
+                ballLanded = true
                 NotificationCenter.default.post(name: NSNotification.Name("ballLanded"), object: nil)
             }
         }
@@ -209,18 +175,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for i in 0..<boxCount {
             let boxX = startX + CGFloat(i) * (boxWidth + spacing / 10)
             let boxRect = CGRect(x: boxX, y: startY, width: boxWidth, height: boxHeight)
-
             if boxRect.contains(ballPosition) {
                 boxLabels[i].fontColor = .white
                 boxNodes[i].texture = SKTexture(imageNamed: "boxWhite")
-                return i // Возвращаем индекс ячейки
+                return i
             }
         }
-        return -1 // Возвращаем -1, если шарик не попал в ни одну ячейку
-    }
-
-    private func smallestMultiplier() -> Int? {
-        return boxMultipliers.min()
+        return -1
     }
     
     private func createInvertedTrianglePegs() {
@@ -229,40 +190,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let endingPegs = 10
         
         for i in 0..<7 {
-            let pegsInRow = startingPegs + i * (endingPegs - startingPegs) / (numberOfRows - 1)
+            let pegsInRow = startingPegs + i * (endingPegs - startingPegs) / (10 - 1)
             let totalWidth = CGFloat(pegsInRow - 1) * spacing
             let xOffset = (size.width - totalWidth) / 2
-            
             for j in 0..<pegsInRow {
                 let pegX = xOffset + CGFloat(j) * spacing
                 let pegY = topY - CGFloat(i) * spacing
-                createPeg(at: CGPoint(x: pegX, y: pegY))
+                createCircle(at: CGPoint(x: pegX, y: pegY))
             }
         }
     }
     
-    private func createPeg(at position: CGPoint) {
-        let peg = SKShapeNode(circleOfRadius: pegRadius)
-        peg.position = position
-        peg.fillColor = .white
-        
-        peg.physicsBody = SKPhysicsBody(circleOfRadius: pegRadius)
-        peg.physicsBody?.isDynamic = false
-        peg.physicsBody?.friction = 0.3
-        peg.physicsBody?.restitution = 0.4
-        peg.physicsBody?.categoryBitMask = 1
-        peg.physicsBody?.contactTestBitMask = 2
-        
-        addChild(peg)
+    private func createCircle(at position: CGPoint) {
+        let circle = SKShapeNode(circleOfRadius: 4)
+        circle.position = position
+        circle.fillColor = .white
+        circle.physicsBody = SKPhysicsBody(circleOfRadius: 4)
+        circle.physicsBody?.isDynamic = false
+        circle.physicsBody?.friction = 0.3
+        circle.physicsBody?.restitution = 0.4
+        circle.physicsBody?.categoryBitMask = 1
+        circle.physicsBody?.contactTestBitMask = 2
+        addChild(circle)
     }
     
     private func createBall(at position: CGPoint) {
-        
-        ball = SKShapeNode(circleOfRadius: ballRadius)
+        ball = SKShapeNode(circleOfRadius: 10)
         ball?.position = position
-        ball?.fillColor = .orange
-        
-        let ballPhysicsBody = SKPhysicsBody(circleOfRadius: ballRadius)
+        ball?.fillColor = .purple
+        let ballPhysicsBody = SKPhysicsBody(circleOfRadius: 10)
         ballPhysicsBody.friction = 0.2
         ballPhysicsBody.restitution = 0.6
         ballPhysicsBody.linearDamping = 0.1
@@ -270,24 +226,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ballPhysicsBody.isDynamic = false
         ballPhysicsBody.categoryBitMask = 2
         ballPhysicsBody.contactTestBitMask = 1
-        
         ball?.physicsBody = ballPhysicsBody
-        
         ball?.name = "ball"
-
         if let ball = ball {
             addChild(ball)
         }
     }
     
-    // MARK: - Ball Dropping
-    
     @objc private func dropBallAtPosition(_ notification: Notification) {
-        guard let dropPositionX = notification.object as? CGFloat else { return }
-        let constrainedXPosition = constrainDropPosition(dropPositionX)
-        hasBallLanded = false
+        guard let _ = notification.object as? CGFloat else { return }
+        ballLanded = false
         if isBonusActive {
-            
             for i in 0..<3 {
                 DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.1) {
                     if let newBall = self.ball {
@@ -302,53 +251,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         isLaunching = false
     }
     
-    private func constrainDropPosition(_ dropPositionX: CGFloat) -> CGFloat {
-        let minXPosition = centralX - horizontalLimit
-        let maxXPosition = centralX + horizontalLimit
-        return min(max(dropPositionX, minXPosition), maxXPosition)
-    }
-    
     @objc private func moveBallToPosition(_ notification: Notification) {
         guard let newXPosition = notification.object as? CGFloat else { return }
         ball?.position.x = newXPosition
     }
     
-    
-    private func removeAllBalls() {
-        // Удаляем все шары (если они существуют)
-        children.filter { $0.name == "ball" }.forEach { $0.removeFromParent() }
-    }
-    
-    // MARK: - Collision Handling
-    
     public func didBegin(_ contact: SKPhysicsContact) {
-        handleBallCollision(with: contact)
-    }
-    
-    private func handleBallCollision(with contact: SKPhysicsContact) {
         let bodyA = contact.bodyA
         let bodyB = contact.bodyB
         
-        if isBallCollidingWithPeg(bodyA, bodyB) {
-            animatePegCollision(for: bodyA, bodyB)
+        if (bodyA.categoryBitMask == 1 && bodyB.categoryBitMask == 2) || (bodyA.categoryBitMask == 2 && bodyB.categoryBitMask == 1) {
+            animateCircleCollision(for: bodyA, bodyB)
         }
     }
     
-    private func isBallCollidingWithPeg(_ bodyA: SKPhysicsBody, _ bodyB: SKPhysicsBody) -> Bool {
-        return (bodyA.categoryBitMask == 1 && bodyB.categoryBitMask == 2) || (bodyA.categoryBitMask == 2 && bodyB.categoryBitMask == 1)
-    }
     
-    private func animatePegCollision(for bodyA: SKPhysicsBody, _ bodyB: SKPhysicsBody) {
-        let pegNode = bodyA.categoryBitMask == 1 ? bodyA.node : bodyB.node
-        animatePeg(pegNode)
-    }
-    
-    private func animatePeg(_ pegNode: SKNode?) {
-        guard let peg = pegNode else { return }
+    private func animateCircleCollision(for bodyA: SKPhysicsBody, _ bodyB: SKPhysicsBody) {
+        guard let circleNode = bodyA.categoryBitMask == 1 ? bodyA.node : bodyB.node else {
+            return
+        }
         let scaleUp = SKAction.scale(to: 1.5, duration: 0.1)
         let scaleDown = SKAction.scale(to: 1.0, duration: 0.1)
         let sequence = SKAction.sequence([scaleUp, scaleDown])
-        peg.run(sequence)
+        circleNode.run(sequence)
     }
     
     private func applyForceTowardsCenter() {
@@ -358,22 +283,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let distanceToCenter = centralX - ballPositionX
         
         if isLaunching {
-            constrainBallPosition()
+            let minXPosition = centralX - 30.0
+            let maxXPosition = centralX + 30.0
+            
+            if ball.position.x < minXPosition {
+                ball.position.x = minXPosition
+            } else if ball.position.x > maxXPosition {
+                ball.position.x = maxXPosition
+            }
         }
         
         let forceMagnitude: CGFloat = distanceToCenter * CGFloat.random(in: 0.02...0.1)
         physicsBody.applyForce(CGVector(dx: forceMagnitude, dy: 0))
-    }
-    
-    private func constrainBallPosition() {
-        guard let ball = ball else { return }
-        let minXPosition = centralX - horizontalLimit
-        let maxXPosition = centralX + horizontalLimit
-        
-        if ball.position.x < minXPosition {
-            ball.position.x = minXPosition
-        } else if ball.position.x > maxXPosition {
-            ball.position.x = maxXPosition
-        }
     }
 }

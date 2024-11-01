@@ -5,7 +5,7 @@ import UIKit
 extension MainViewController {
     
     public func setupButtons() {
-        mainView.achievmentsButton.addTarget(self, action: #selector(achievmentsPressed), for: .touchUpInside)
+//        mainView.achievmentsButton.addTarget(self, action: #selector(achievmentsPressed), for: .touchUpInside)
         mainView.addTargetButton.addTarget(self, action: #selector(addNewTargetPressed), for: .touchUpInside)
         mainView.infoButton.addTarget(self, action: #selector(infoPressed), for: .touchUpInside)
         mainView.settingsButton.addTarget(self, action: #selector(settingsPressed), for: .touchUpInside)
@@ -29,8 +29,5 @@ extension MainViewController {
         coordinator?.showInfo()
     }
     
-    @objc
-    func achievmentsPressed() {
-        print("LOGGER: achievments pressed")
-    }
+    
 }

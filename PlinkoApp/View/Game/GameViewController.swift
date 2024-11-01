@@ -11,7 +11,7 @@ class GameScreenViewController: UIViewController, UITableViewDataSource, UITable
     private var showingBetSheet: Bool = false
     private var selectedBet: Double = 10
     private var isBallDropped: Bool = false
-    private var hasBallLanded: Bool = false
+    private var ballLanded: Bool = false
     private var gameScene: SKScene!
     var skView: SKView!
     
@@ -219,7 +219,7 @@ class GameScreenViewController: UIViewController, UITableViewDataSource, UITable
         gameScene.scaleMode = .resizeFill
         gameScene.backgroundColor = .clear
         skView = SKView()
-        skView = SKView(frame: CGRect(x: 20, y: 170, width: 342, height: 519))
+        skView = SKView(frame: CGRect(x: (self.view.frame.width-342)/2, y: 170, width: 342, height: 519))
         skView.presentScene(gameScene)
         
         skView.backgroundColor = .clear
@@ -293,25 +293,25 @@ class GameScreenViewController: UIViewController, UITableViewDataSource, UITable
     @objc private func handleDrag(_ gesture: UIPanGestureRecognizer) {
         if !isBallDropped {
             let location = gesture.location(in: view)
-            NotificationCenter.default.post(name: NSNotification.Name("moveBallToPosition"), object: location.x)
+            NotificationCenter.default.post(name: NSNotification.Name("ballMoved"), object: location.x)
         }
     }
     
     private func dropBall() {
         isBallDropped = true
-        NotificationCenter.default.post(name: NSNotification.Name("dropBallAtPosition"), object: dropPositionX)
+        NotificationCenter.default.post(name: NSNotification.Name("ballDropped"), object: dropPositionX)
     }
     
     private func setupObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(ballLanded), name: NSNotification.Name("ballLanded"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ballLandedAction), name: NSNotification.Name("ballLanded"), object: nil)
     }
     
     private func removeObservers() {
         NotificationCenter.default.removeObserver(self)
     }
     
-    @objc private func ballLanded() {
-        hasBallLanded = true
+    @objc private func ballLandedAction() {
+        ballLanded = true
         isBallDropped = false
     }
     

@@ -4,8 +4,10 @@ import UIKit
 final class MainViewController: UIViewController {
     
     weak var coordinator: MainCoordinator?
+    let loadView = LoadingView()
     let viewModel = MainViewModel()
     let mainView = MainView()
+    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
@@ -14,8 +16,15 @@ final class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(viewModel.getTotalCountBlocks())
-        configure()
+        view.addSubview(loadView)
+        loadView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        loadView.setupLoading()
+        DispatchQueue.main.asyncAfter(deadline: .now()+3.2) {
+            self.loadView.isHidden = true
+            self.configure()
+        }
     }
 
     private func configure() {

@@ -236,7 +236,11 @@ class GameScreenViewController: UIViewController, UITableViewDataSource, UITable
         
         button.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(skView.snp.bottom).offset(-16)
+            if UIScreen.main.bounds.height < 800 {
+                make.bottom.equalTo(skView.snp.bottom).offset(-50)
+            } else {
+                make.bottom.equalTo(skView.snp.bottom).offset(-16)
+            }
             make.width.equalTo(310)
             make.height.equalTo(60)
         }

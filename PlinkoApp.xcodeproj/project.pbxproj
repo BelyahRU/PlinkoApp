@@ -35,6 +35,7 @@
 		1A830C622CD4058A0060CC21 /* NotificationSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A830C612CD4058A0060CC21 /* NotificationSettingsViewController.swift */; };
 		1A830C642CD410790060CC21 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A830C632CD410790060CC21 /* SettingsManager.swift */; };
 		1A830C662CD4341E0060CC21 /* GetterSingletone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A830C652CD4341E0060CC21 /* GetterSingletone.swift */; };
+		1AFD38812CD51DBE00D54197 /* LoadinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFD38802CD51DBE00D54197 /* LoadinView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +68,7 @@
 		1A830C612CD4058A0060CC21 /* NotificationSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsViewController.swift; sourceTree = "<group>"; };
 		1A830C632CD410790060CC21 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		1A830C652CD4341E0060CC21 /* GetterSingletone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetterSingletone.swift; sourceTree = "<group>"; };
+		1AFD38802CD51DBE00D54197 /* LoadinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadinView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +173,7 @@
 				1A7060602CD2B2820014DD5E /* MainVC + CollectionView.swift */,
 				1A7060622CD2B2890014DD5E /* MainView.swift */,
 				1A7060642CD2B2940014DD5E /* MainCollectionViewCell.swift */,
+				1AFD38802CD51DBE00D54197 /* LoadinView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -309,6 +312,7 @@
 				1A7060632CD2B2890014DD5E /* MainView.swift in Sources */,
 				1A7060582CD2B2370014DD5E /* Coordinator.swift in Sources */,
 				1A830C5F2CD4002D0060CC21 /* GoalCell.swift in Sources */,
+				1AFD38812CD51DBE00D54197 /* LoadinView.swift in Sources */,
 				1A7060782CD2B3560014DD5E /* GameViewController.swift in Sources */,
 				1A70603F2CD2B1F50014DD5E /* AppDelegate.swift in Sources */,
 				1A70605D2CD2B2640014DD5E /* MainViewController.swift in Sources */,

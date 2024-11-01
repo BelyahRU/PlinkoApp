@@ -217,7 +217,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private func createBall(at position: CGPoint) {
         ball = SKShapeNode(circleOfRadius: 10)
         ball?.position = position
-        ball?.fillColor = .purple
+        let ballImage = SKSpriteNode(imageNamed: "ballImage")
+        ballImage.size = ball!.frame.size
         let ballPhysicsBody = SKPhysicsBody(circleOfRadius: 10)
         ballPhysicsBody.friction = 0.2
         ballPhysicsBody.restitution = 0.6
@@ -228,6 +229,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ballPhysicsBody.contactTestBitMask = 1
         ball?.physicsBody = ballPhysicsBody
         ball?.name = "ball"
+        ball?.addChild(ballImage)
         if let ball = ball {
             addChild(ball)
         }

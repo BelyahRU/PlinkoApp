@@ -9,4 +9,5 @@ class GetterSingletone {
     private init() {}
     
     var currentArray:[Int] = []
+    
 }

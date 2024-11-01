@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A12DA282CD5317700B8E0B4 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1A12DA272CD5317700B8E0B4 /* SnapKit */; };
 		1A70603F2CD2B1F50014DD5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A70603E2CD2B1F50014DD5E /* AppDelegate.swift */; };
 		1A7060412CD2B1F50014DD5E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7060402CD2B1F50014DD5E /* SceneDelegate.swift */; };
 		1A7060482CD2B1F70014DD5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A7060472CD2B1F70014DD5E /* Assets.xcassets */; };
@@ -29,7 +30,6 @@
 		1A70607A2CD2B37D0014DD5E /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7060792CD2B37D0014DD5E /* MainViewModel.swift */; };
 		1A70607C2CD2B3AD0014DD5E /* GoalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A70607B2CD2B3AD0014DD5E /* GoalManager.swift */; };
 		1A7060802CD2B3E00014DD5E /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A70607F2CD2B3E00014DD5E /* Resources.swift */; };
-		1A7060832CD2B4360014DD5E /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1A7060822CD2B4360014DD5E /* SnapKit */; };
 		1A830C5B2CD3F90E0060CC21 /* AddTargetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A830C5A2CD3F90E0060CC21 /* AddTargetViewModel.swift */; };
 		1A830C5F2CD4002D0060CC21 /* GoalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A830C5E2CD4002D0060CC21 /* GoalCell.swift */; };
 		1A830C622CD4058A0060CC21 /* NotificationSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A830C612CD4058A0060CC21 /* NotificationSettingsViewController.swift */; };
@@ -76,7 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A7060832CD2B4360014DD5E /* SnapKit in Frameworks */,
+				1A12DA282CD5317700B8E0B4 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,7 +248,7 @@
 			);
 			name = PlinkoApp;
 			packageProductDependencies = (
-				1A7060822CD2B4360014DD5E /* SnapKit */,
+				1A12DA272CD5317700B8E0B4 /* SnapKit */,
 			);
 			productName = PlinkoApp;
 			productReference = 1A70603B2CD2B1F50014DD5E /* PlinkoApp.app */;
@@ -279,7 +279,7 @@
 			);
 			mainGroup = 1A7060322CD2B1F50014DD5E;
 			packageReferences = (
-				1A7060812CD2B4360014DD5E /* XCRemoteSwiftPackageReference "SnapKit" */,
+				1A12DA262CD5317700B8E0B4 /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = 1A70603C2CD2B1F50014DD5E /* Products */;
 			projectDirPath = "";
@@ -402,7 +402,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -459,7 +459,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -482,7 +482,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -509,7 +509,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -547,7 +547,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		1A7060812CD2B4360014DD5E /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		1A12DA262CD5317700B8E0B4 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
 			requirement = {
@@ -558,9 +558,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		1A7060822CD2B4360014DD5E /* SnapKit */ = {
+		1A12DA272CD5317700B8E0B4 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 1A7060812CD2B4360014DD5E /* XCRemoteSwiftPackageReference "SnapKit" */;
+			package = 1A12DA262CD5317700B8E0B4 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */

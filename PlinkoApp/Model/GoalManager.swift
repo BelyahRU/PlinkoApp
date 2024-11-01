@@ -84,6 +84,7 @@ class GoalManager {
         goalBlocks[at].reloadBlock() // Вызываем reloadBlock для блока
         saveGoalBlocks()
 
+        
     }
     
     func addBlock(block: GoalBlock){

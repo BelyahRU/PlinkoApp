@@ -99,7 +99,11 @@ final class AddTargetViewController: UIViewController {
         }
         
         targetBackView.snp.makeConstraints { make in
-            make.top.equalTo(targetsBackImageView.snp.top).offset(16)
+            if UIScreen.main.bounds.height < 800 {
+                make.top.equalTo(targetsBackImageView.snp.top)
+            } else {
+                make.top.equalTo(targetsBackImageView.snp.top).offset(16)
+            }
             make.leading.equalTo(targetsBackImageView.snp.leading).offset(16)
             make.trailing.equalTo(targetsBackImageView.snp.trailing).offset(-16)
             make.height.equalTo(52)

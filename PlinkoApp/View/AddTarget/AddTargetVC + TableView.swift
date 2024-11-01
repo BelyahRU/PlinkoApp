@@ -11,12 +11,13 @@ extension AddTargetViewController: UITableViewDataSource, UITableViewDelegate {
         
         
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(targetsBackImageView).offset(126)
             make.trailing.equalToSuperview().offset(-40)
             if UIScreen.main.bounds.height < 800 {
                 make.leading.equalToSuperview().offset(10)
+                make.top.equalTo(targetsBackImageView).offset(115)
             } else {
                 make.leading.equalToSuperview().offset(20)
+                make.top.equalTo(targetsBackImageView).offset(126)
             }
             make.bottom.equalTo(saveTargetButton.snp.top)
             make.centerX.equalToSuperview()

@@ -8,6 +8,7 @@ class SettingsManager {
     
     func saveSelectedOption(_ option: Int) {
         UserDefaults.standard.set(option, forKey: selectedOptionKey)
+        
     }
     
     func loadSelectedOption() -> Int? {
